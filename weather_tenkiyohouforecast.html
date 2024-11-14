@@ -54,7 +54,7 @@
         async function fetchWeather() {
             const city = document.getElementById('city').value;
             const apiKey = 'a90d94a74a5d6ae8ed672f2170276b57';
-            const url = `http://api.openweathermap.org/data/2.5/forecast?q=${city}&cnt=7&appid=${apiKey}&lang=ja&units=metric`;
+            const url = `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&lang=ja&units=metric`;
             const response = await fetch(url);
             const data = await response.json();
             displayWeather(data);
@@ -63,17 +63,18 @@
         function displayWeather(data) {
             const weatherList = document.getElementById('weather-list');
             weatherList.innerHTML = '';
-            data.list.forEach(day => {
-                const iconUrl = `http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`;
+            data.list.forEach(item => {
                 const listItem = document.createElement('li');
+                const iconUrl = `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`;
                 listItem.innerHTML = `<div>
-                                        日付: ${new Date(day.dt * 1000).toLocaleDateString()}<br>
-                                        天気: ${day.weather[0].description}<br>
-                                        気温: ${day.main.temp}°C<br>
-                                        湿度: ${day.main.humidity}%<br>
-                                        風速: ${day.wind.speed}m/s
+                                        時間: ${new Date(item.dt * 1000).toLocaleTimeString()}<br>
+                                        日付: ${new Date(item.dt * 1000).toLocaleDateString()}<br>
+                                        天気: ${item.weather[0].description}<br>
+                                        気温: ${item.main.temp}°C<br>
+                                        湿度: ${item.main.humidity}%<br>
+                                        風速: ${item.wind.speed}m/s
                                       </div>
-                                      <img class="icon" src="${iconUrl}" alt="${day.weather[0].description}">`;
+                                      <img class="icon" src="${iconUrl}" alt="${item.weather[0].description}">`;
                 weatherList.appendChild(listItem);
             });
         }
